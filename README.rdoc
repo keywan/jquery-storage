@@ -10,6 +10,10 @@ Include script *after* the jQuery library (unless you are packaging scripts some
 
 == Usage
 
+Test to see if cookies are enabled:
+
+    $.cookie();
+
 Create session cookie:
 
     $.cookie('the_cookie', 'the_value');

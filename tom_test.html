@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+        <script src="jquery.cookie.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				if($.cookie()){					// check if cookies are enabled
+					console.log('Yay cookies!');	// write that cookies are enabled to the console
+					$.cookie('foo', 'bar');			// set the foo cookie
+					console.log($.cookie('foo'));	// write the foo cookie out to the console
+				}
+				else console.log('No cookies!');	// write that cookies are not enabled to the console
+			});
+		</script>
+        <title>Tom's Test</title>
+    </head>
+    <body>
+        <p>This section intentionally left blank.</p>
+    </body>
+</html>
