@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<meta charset="UTF-8">
+	<title>LocalStorage and Cookie Test</title>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" type="text/javascript"></script>
+	<script src="jquery.cookie.js" type="text/javascript"></script>
+	<script type="text/javascript">
+	
+		var cookiesSupported = $.cookie(); 									//check and see if cookies are enables
+		console.log("cookies supported: " + cookiesSupported);
+		
+		$.cookie("foo", "bar");												//set cookie "foo" to "bar"
+		console.log("We saved a cookie! foo = bar");
+		
+		var fooCookie = $.cookie("foo");									//retrive the "foo" cookie
+		console.log("We retrieved it! foo = " + fooCookie);
+		
+		var localStorageSupported = $.storage();							//check and see if localStorage is enabled
+		console.log("local storage supported: " + localStorageSupported);
+		
+		$.storage("bunny", "foofoo");										//set localStorage "bunny" to "foofoo"
+		console.log("We saved a cookie! bunny = foofoo");
+		
+		var bunnyStorage = $.storage("bunny");								//retrive the "bunny" localStorage
+		console.log("We retrieved it! bunny = " + bunnyStorage);
+		
+		firstKey = $.storageKey(0);											//get the first storageKey
+		console.log('The first key is: ' + firstKey);
+		
+		$.clearStorage();													//clear the localStorage
+		console.log('We are clearing the storage!');
+		console.log('Now let\'s make sure that it really cleared.');
+		
+		firstKey = $.storageKey(1);											//try to get the frist key again (expect undefined)
+		console.log('The first key is: ' + firstKey);
+		
+		var bunnyStorage = $.storage("bunny");								//try to get localStorage "bunny" (expect null)
+		console.log("Lastly, bunny = " + bunnyStorage);
+		
+	</script>
+</head>
+<body>
+	<p>Look in the console.</p>
+</body>
+</html>

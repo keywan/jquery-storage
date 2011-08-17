@@ -7,25 +7,26 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  * Modified from jquery.cookie.js by Klaus Hartl (stilbuero.de)
- * Origenal source:  https://github.com/carhartl/jquery-cookie
+ * Original source:  https://github.com/carhartl/jquery-cookie
  *
- * Last modified:  2011-08-11 by Tom Dunlap:  
- * - Added zero parameter method that checks if cookies are enables
+ * Last modified:  2011-08-17 by Tom Dunlap:  
+ * - (2011-08-17) Added localStorage support
+ * - (2011-08-11) Added zero parameter method that checks if cookies are enables
  */
 jQuery.cookie = function (key, value, options) {
-	
+
 	// if no arguments are passed, check and see if cookies are enabled
 	if (arguments.length == 0){
 		// the id is our test value
 		var id = new Date().getTime();
-		
+
 		// generate a cookie to probe cookie access
 		document.cookie = '__cookieprobe='+id+';path=/';
-		
+
 		// if the cookie has been set, then we're good
 		return (document.cookie.indexOf(id) !== -1);
 	}
-	
+
     // key and at least value given, set cookie...
     else if (arguments.length > 1 && String(value) !== "[object Object]") {
         options = jQuery.extend({}, options);
@@ -58,3 +59,42 @@ jQuery.cookie = function (key, value, options) {
 		return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
 	}
 };
+
+
+jQuery.storage = function(key, value) {
+	
+	// if no arguments are passed, check and see if localStorage is supported and enabled
+	if (arguments.length == 0){
+		try {
+			return 'localStorage' in window && window['localStorage'] !== null;
+		} 
+		catch(e){
+			return false;
+		}
+	}
+	
+	// only one argument (key) was supplied, return the associated value
+	else if(arguments.length == 1){
+		return localStorage.getItem(key);
+	}
+	
+	// a key and a value were supplied, set the local storage
+	else{
+		if(value === null){
+			return localStorage.removeItem(key);
+		}
+		else{
+			return localStorage.setItem(key, value);
+		}
+	}
+	
+};
+
+jQuery.clearStorage = function() {
+	localStorage.clear();
+};
+
+jQuery.storageKey = function(index){
+	return localStorage.key(index);
+};
+
