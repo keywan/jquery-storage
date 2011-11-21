@@ -7,12 +7,14 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  */
-jQuery.cookie = function (key, value, options) {
-
-    // key and at least value given, set cookie...
-    if (arguments.length > 1 && String(value) !== "[object Object]") {
-        options = jQuery.extend({}, options);
-
+jQuery.cookie = {
+    get: function(key, options) {
+        options = options || {};
+        var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+        return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+    },
+    set: function(key, value, options) {
+        options = options || {};
         if (value === null || value === undefined) {
             options.expires = -1;
         }
@@ -32,10 +34,8 @@ jQuery.cookie = function (key, value, options) {
             options.domain ? '; domain=' + options.domain : '',
             options.secure ? '; secure' : ''
         ].join(''));
-    }
-
-    // key and possibly options given, get cookie...
-    options = value || {};
-    var result, decode = options.raw ? function (s) { return s; } : decodeURIComponent;
-    return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+    },
+    delete: function(key) {
+        document.cookie = encodeURIComponent(key) + '=0; expires=Wed, 31 Dec 1969 23:59:59 GMT';
+    },
 };
