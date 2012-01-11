@@ -15,7 +15,7 @@ jQuery.cookie = function (key, value, options) {
 	function get_cookie(key, options) {
 		options = jQuery.extend({}, options);
 		var result,
-		decode = options.raw ? function (s) { return s; } : decodeURIComponent,
+		decode = options.raw ? function (s) { return s; } : decodeURIComponent;
 		return (result = new RegExp('(?:^|; )' + decode(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
 	}
 	function set_cookie(key, value, options) {
