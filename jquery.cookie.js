@@ -11,7 +11,7 @@ jQuery.cookie = function (key, value, options) {
 
     // key and at least value given, set cookie...
     if (arguments.length > 1 && String(value) !== "[object Object]") {
-        options = jQuery.extend({ encodeKey: true }, options);
+        options = jQuery.extend({}, options);
 
         if (value === null || value === undefined) {
             options.expires = -1;
@@ -27,7 +27,7 @@ jQuery.cookie = function (key, value, options) {
         return (document.cookie = [
             encodeURIComponent(key), '=',
             options.raw ? value : cookie_encode(value),
-            options.encodeKey ? encodeURIComponent(key) : key, '=',
+            options.raw ? key : cookie_encode(key), '=',
             options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
             options.path ? '; path=' + options.path : '',
             options.domain ? '; domain=' + options.domain : '',
@@ -37,6 +37,7 @@ jQuery.cookie = function (key, value, options) {
 
     // key and possibly options given, get cookie...
     options = value || {};
+	
     var result,
         decode = options.raw ? function (s) { return s; } : decodeURIComponent,
         decodeKey = options.encodeKey ? decodeURIComponent : function (s) { return s; };
