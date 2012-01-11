@@ -12,24 +12,24 @@ Include script *after* the jQuery library (unless you are packaging scripts some
 
 Create session cookie:
 
-    $.cookie('the_cookie', 'the_value');
+    $.cookie.set('the_cookie', 'the_value');
 
 Create expiring cookie, 7 days from then:
 
-    $.cookie('the_cookie', 'the_value', { expires: 7 });
+    $.cookie.set('the_cookie', 'the_value', { expires: 7 });
 
 Create expiring cookie, valid across entire page:
 
-    $.cookie('the_cookie', 'the_value', { expires: 7, path: '/' });
+    $.cookie.set('the_cookie', 'the_value', { expires: 7, path: '/' });
 
 Read cookie:
 
-    $.cookie('the_cookie'); // => 'the_value'
-    $.cookie('not_existing'); // => null
+    $.cookie.get('the_cookie'); // => 'the_value'
+    $.cookie.get('not_existing'); // => null
 
-Delete cookie by passing null as value:
+Delete cookie:
 
-    $.cookie('the_cookie', null);
+    $.cookie.delete('the_cookie');
 
 Note when clearing cookies, you must pass the exact same options that were used to initially set the cookie.
 
@@ -70,4 +70,5 @@ Pull requests are very welcome! Make sure your patches are well tested. Please c
 
 == Authors
 
-{Klaus Hartl}[https://github.com/carhartl]
+{David Björklund}[https://github.com/kesla]
+{Klaus Hartl}[https://github.com/carhartl] (original author)

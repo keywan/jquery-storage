@@ -7,12 +7,16 @@
  * http://www.gnu.org/licenses/gpl.html
  *
  */
-jQuery.cookie = function (key, value, options) {
-
-    // key and at least value given, set cookie...
-    if (arguments.length > 1 && String(value) !== "[object Object]") {
+jQuery.cookie = {
+    get: function(key, options) {
         options = jQuery.extend({ encodeKey: true }, options);
-
+	var result,
+        decode = options.raw ? function (s) { return s; } : decodeURIComponent,
+        decodeKey = options.encodeKey ? decodeURIComponent : function (s) { return s; };
+    	return (result = new RegExp('(?:^|; )' + decodeKey(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+    },
+    set: function(key, value, options) {
+	options = jQuery.extend({ encodeKey: true }, options);
         if (value === null || value === undefined) {
             options.expires = -1;
         }
@@ -33,18 +37,15 @@ jQuery.cookie = function (key, value, options) {
             options.domain ? '; domain=' + options.domain : '',
             options.secure ? '; secure' : ''
         ].join(''));
-    }
+    },
 
-    // key and possibly options given, get cookie...
-    options = value || {};
-    var result,
-        decode = options.raw ? function (s) { return s; } : decodeURIComponent,
-        decodeKey = options.encodeKey ? decodeURIComponent : function (s) { return s; };
-    return (result = new RegExp('(?:^|; )' + decodeKey(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+    delete: function(key) {
+        document.cookie = encodeURIComponent(key) + '=0; expires=Wed, 31 Dec 1969 23:59:59 GMT';
+    }
 };
 
 function cookie_encode(string){
-    //full uri decode not only to encode ",; =" but to save uicode charaters
+	//full uri decode not only to encode ",; =" but to save unicode charaters
 	var decoded = encodeURIComponent(string);
 	//encode back common and allowed charaters {}:"#[] to save space and make the cookies more human readable
 	var ns = decoded.replace(/(%7B|%7D|%3A|%22|%23|%5B|%5D)/g,function(charater){return decodeURIComponent(charater);});
