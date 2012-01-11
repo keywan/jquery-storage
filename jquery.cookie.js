@@ -9,11 +9,10 @@
  */
 jQuery.cookie = {
     get: function(key, options) {
-        options = jQuery.extend({ encodeKey: true }, options);
+        options = jQuery.extend({}, options);
 	var result,
         decode = options.raw ? function (s) { return s; } : decodeURIComponent,
-        decodeKey = options.encodeKey ? decodeURIComponent : function (s) { return s; };
-    	return (result = new RegExp('(?:^|; )' + decodeKey(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
+        return (result = new RegExp('(?:^|; )' + decode(key) + '=([^;]*)').exec(document.cookie)) ? decode(result[1]) : null;
     },
     set: function(key, value, options) {
 	options = jQuery.extend({ encodeKey: true }, options);
@@ -31,7 +30,7 @@ jQuery.cookie = {
         return (document.cookie = [
             encodeURIComponent(key), '=',
             options.raw ? value : cookie_encode(value),
-            options.encodeKey ? encodeURIComponent(key) : key, '=',
+            options.raw ? key : cookie_encode(key), '=',
             options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
             options.path ? '; path=' + options.path : '',
             options.domain ? '; domain=' + options.domain : '',
