@@ -8,28 +8,36 @@ Include script *after* the jQuery library (unless you are packaging scripts some
 
     <script src="/path/to/jquery.cookie.js"></script>
 
-== Usage
+== Usage Old-Style Function API
 
 Create session cookie:
 
-    $.cookie.set('the_cookie', 'the_value');
+    $.cookie('the_cookie', 'the_value');
 
 Create expiring cookie, 7 days from then:
 
-    $.cookie.set('the_cookie', 'the_value', { expires: 7 });
+    $.cookie('the_cookie', 'the_value', { expires: 7 });
 
 Create expiring cookie, valid across entire page:
 
-    $.cookie.set('the_cookie', 'the_value', { expires: 7, path: '/' });
+    $.cookie('the_cookie', 'the_value', { expires: 7, path: '/' });
 
 Read cookie:
 
-    $.cookie.get('the_cookie'); // => 'the_value'
-    $.cookie.get('not_existing'); // => null
+    $.cookie('the_cookie'); // => 'the_value'
+    $.cookie('not_existing'); // => null
 
 Delete cookie:
 
-    $.cookie.delete('the_cookie');
+    $.cookie('the_cookie',null);
+
+== Usage Object API
+
+    var cm = new $.CookieManager(options);
+    cm.set(key,value);
+    cm.get(key);
+    cm.delete(key);
+
 
 Note when clearing cookies, you must pass the exact same options that were used to initially set the cookie.
 
