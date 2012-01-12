@@ -1,6 +1,26 @@
-= jquery.cookie
+= jquery.cookie2
 
-A simple, lightweight jQuery plugin for reading, writing and deleting cookies.
+A feature-rich jQuery plugin for reading, writing and deleting cookies.
+
+== Goals
+
+=== compatibility with jquery.cookie
+It is full backward compatible with jquery.cookie
+
+=== get all features
+Try to merge nearly all ideas from the comunity.
+If code is incompatible make the idea behind posible.
+If a problem is solveable one way, remove the other options as noone request them to be back.
+
+== status
+it pass all tests but i expect that there are still bugs on deleting cookies
+if you like to use it in production verify that it works in all browsers as accpected.
+smarter encoding Stratagie to save cookie space and allow special charaters in key and values.
+
+if you need a stable api you can rely on the old API
+the new API is "new" so there is a minor chance that some things will be changed.
+
+
 
 == Installation
 
