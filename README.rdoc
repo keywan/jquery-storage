@@ -13,12 +13,17 @@ If code is incompatible make the idea behind posible.
 If a problem is solveable one way, remove the other options as noone request them to be back.
 
 == status
-it pass all tests but i expect that there are still bugs on deleting cookies
-if you like to use it in production verify that it works in all browsers as accpected.
-smarter encoding Stratagie to save cookie space and allow special charaters in key and values.
+Storage Support was added
+$.cookie.defaults.useLocalStorage = 1;
+will enable LocalStorage if available but will fallback to sessionStorage or cookieStorage if not.
+
+The getAll-Method is not compatible with the Storage Interface it is supposed to to be changed.
 
 if you need a stable api you can rely on the old API
 the new API is "new" so there is a minor chance that some things will be changed.
+
+The cookieStorage does not yet support saving objects (other then Strings), but can use jQuery JSON Plugin
+to work around that. jquery.cookie2 cookieStorage allows to store jsonstrings.
 
 
 
@@ -28,7 +33,11 @@ Include script *after* the jQuery library (unless you are packaging scripts some
 
     <script src="/path/to/jquery.cookie.js"></script>
 
-== Usage Old-Style Function API
+== Usage Old-stable Function API
+
+Test to see if cookies are enabled:
+
+    $.cookie();
 
 Create session cookie:
 
@@ -50,16 +59,16 @@ Read cookie:
 Delete cookie:
 
     $.cookie('the_cookie',null);
+	Note when clearing cookies, you must pass the exact same options that were used to initially set the cookie.
 
-== Usage Object API
+== Usage Object/Storage API
 
-    var cm = new $.CookieManager(options);
-    cm.set(key,value);
-    cm.get(key);
-    cm.delete(key);
+    var cm = jQuery.cookie.getStorage(options);
+    cm.setItem(key,value);
+    cm.getItem(key);
+    cm.removeItem(key);
 
 
-Note when clearing cookies, you must pass the exact same options that were used to initially set the cookie.
 
 == Options
 

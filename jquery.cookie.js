@@ -10,27 +10,47 @@
 
 jQuery.cookie = function (key, value, options) {
     // if arguments is blank, return all cookie detail
-	var cm = new jQuery.cookie.CookieManager();
 	if (arguments.length == 0) {
-		return cm.get_all(options);
+		var cm = jQuery.cookie.getStorage(options);
+		return cm.getAll(options);
 	}else if(arguments.length > 1 && String(value) !== "[object Object]") {
 		// key and at least value given, set cookie...
 		if (value === null || value === undefined) {
 			options = value;
-			cm.delete_cookie(key,options);
+			var cm = jQuery.cookie.getStorage(options);
+			return cm.removeItem(key);
 		}else{
-			return cm.set_cookie(key,value,options);
+			var cm = jQuery.cookie.getStorage(options);
+			return cm.setItem(key,value);
 		}
 	}else{
 		// key and possibly options given, get cookie...
 		options = value;
-		return cm.get_cookie(key,options);
+		var cm = jQuery.cookie.getStorage(options);
+		return cm.getItem(key);
 	}
 };
 
 jQuery.cookie.defaults = {};
+jQuery.cookie.getStorage = function(options){
+	options = jQuery.extend(jQuery.cookie.defaults, options);
+	if (options.useLocalStorage && canLocalStorage()){
+		return localStorage;
+	}else if(canSessionStorage() && (options.useLocalStorage || options.useSessionStorage) ){
+		//fallback if no localStorage avail use the sessionStorage
+		return sessionStorage;
+	}else{
+		return new jQuery.cookie.cookieStorage(options);
+	}	
+	function canLocalStorage(){
+		return localStorage ? 1 : 0;
+	}
+	function canSessionStorage(){
+		return sessionStorage ? 1 : 0;
+	}
+}
 
-jQuery.cookie.CookieManager = function CookieManager(options){
+jQuery.cookie.cookieStorage = function (options){
 		function cookie_encode(string){
 			//full uri decode not only to encode ",; =" but to save unicode charaters
 			var decoded = encodeURIComponent(string);
@@ -40,13 +60,13 @@ jQuery.cookie.CookieManager = function CookieManager(options){
 		}
 
 		this.options = jQuery.extend(jQuery.cookie.defaults, options);
-		this.delete_cookie = function delete_cookie(key,options) {
+		this.removeItem = function (key,options) {
 			options = jQuery.extend(options, {"expires" : -1});
 			options = jQuery.extend(this.options, options);
 			var value = null;
-			this.set_cookie(key,value,options);
+			this.setItem(key,value,options);
 		};
-		this.get_cookie = function get_cookie(key, options) {
+		this.getItem = function (key, options) {
 			options = jQuery.extend(this.options, options);
 			var decode = options.raw ? function (s) { return s; } : decodeURIComponent;
 			key = cookie_encode(key);
@@ -57,7 +77,7 @@ jQuery.cookie.CookieManager = function CookieManager(options){
 			result = result ? decode(result[1]) : null;
 			return result;
 		};
-		this.set_cookie = function set_cookie(key, value, options) {
+		this.setItem = function (key, value, options) {
 			options = jQuery.extend(this.options, options);
 			if (typeof options.expires === 'number') {
 				var days = options.expires, t = options.expires = new Date();
@@ -75,7 +95,7 @@ jQuery.cookie.CookieManager = function CookieManager(options){
 			return document.cookie = cookie;
 		};
 		
-		this.get_all = function(options){
+		this.getAll = function(options){
 			options = jQuery.extend(this.options, options);
 			var cookie_strings = document.cookie.split(';'), l = cookie_strings.length, cookies = {};
 			if(l > 0 && jQuery.trim(document.cookie) !== ''){
