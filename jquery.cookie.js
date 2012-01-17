@@ -31,7 +31,7 @@ jQuery.cookie = function (key, value, options) {
 	}
 };
 
-jQuery.cookie.defaults = {};
+jQuery.cookie.defaults = {"useLocalStorage":1};
 jQuery.cookie.getStorage = function(options){
 	options = jQuery.extend(jQuery.cookie.defaults, options);
 	if (options.useLocalStorage && canLocalStorage()){
