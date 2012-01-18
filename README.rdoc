@@ -22,10 +22,6 @@ The getAll-Method is not compatible with the Storage Interface it is supposed to
 if you need a stable api you can rely on the old API
 the new API is "new" so there is a minor chance that some things will be changed.
 
-The cookieStorage does not yet support saving objects (other then Strings), but can use jQuery JSON Plugin
-to work around that. jquery.cookie2 cookieStorage allows to store jsonstrings.
-
-
 
 == Installation
 
@@ -68,7 +64,17 @@ Delete cookie:
     cm.getItem(key);
     cm.removeItem(key);
 
+== saving objects
+None of the Storages do not support saving objects (other then Strings), but you can use jQuery JSON Plugin
+to build json strings.
 
+    var cm = jQuery.cookie.getStorage(options);
+    var value = $.toJSON(object);
+    cm.setItem(key,value);
+
+    var value = cm.getItem(key);
+    var object = $.evalJSON(value);
+    cm.removeItem(key);
 
 == Options
 
