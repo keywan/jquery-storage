@@ -8,39 +8,40 @@
  *
  */
 
-jQuery.cookie = function (key, value, options) {
+(function( $ ){ 
+
+$.cookie = function (key, value, options) {
     // if arguments is blank, return all cookie detail
-	if (arguments.length == 0) {
-		var cm = jQuery.cookie.getStorage(options);
+	if ( arguments.length == 0 ) {
+		var cm = $.cookie.getStorage(options);
 		return cm.getAll(options);
-	}else if(arguments.length > 1 && String(value) !== "[object Object]") {
+	} else if ( arguments.length > 1 && String(value) !== "[object Object]" ) {
 		// key and at least value given, set cookie...
-		if (value === null || value === undefined) {
-			options = value;
-			var cm = jQuery.cookie.getStorage(options);
+		if (value == null) {
+			var cm = $.cookie.getStorage(options);
 			return cm.removeItem(key);
 		}else{
-			var cm = jQuery.cookie.getStorage(options);
+			var cm = $.cookie.getStorage(options);
 			return cm.setItem(key,value);
 		}
-	}else{
+	} else {
 		// key and possibly options given, get cookie...
 		options = value;
-		var cm = jQuery.cookie.getStorage(options);
+		var cm = $.cookie.getStorage(options);
 		return cm.getItem(key);
 	}
 };
 
 jQuery.cookie.defaults = {"useLocalStorage":1};
-jQuery.cookie.getStorage = function(options){
-	options = jQuery.extend(jQuery.cookie.defaults, options);
-	if (options.useLocalStorage && canLocalStorage()){
+$.cookie.getStorage = function(options){
+	options = $.extend($.cookie.defaults, options);
+	if ( options.useLocalStorage && canLocalStorage() ){
 		return localStorage;
-	}else if(canSessionStorage() && (options.useLocalStorage || options.useSessionStorage) ){
+	} else if ( canSessionStorage() && ( options.useLocalStorage || options.useSessionStorage ) ){
 		//fallback if no localStorage avail use the sessionStorage
 		return sessionStorage;
-	}else{
-		return new jQuery.cookie.cookieStorage(options);
+	} else {
+		return new $.cookie.cookieStorage(options);
 	}	
 	function canLocalStorage(){
 		return localStorage ? 1 : 0;
@@ -50,8 +51,8 @@ jQuery.cookie.getStorage = function(options){
 	}
 }
 
-jQuery.cookie.cookieStorage = function (options){
-		function cookie_encode(string){
+$.cookie.cookieStorage = function ( options ) {
+		function cookie_encode( string ){
 			//full uri decode not only to encode ",; =" but to save unicode charaters
 			var decoded = encodeURIComponent(string);
 			//encode back common and allowed charaters {}:"#[] to save space and make the cookies more human readable
@@ -59,15 +60,15 @@ jQuery.cookie.cookieStorage = function (options){
 			return ns;
 		}
 
-		this.options = jQuery.extend(jQuery.cookie.defaults, options);
-		this.removeItem = function (key,options) {
-			options = jQuery.extend(options, {"expires" : -1});
-			options = jQuery.extend(this.options, options);
+		this.options = $.extend( $.cookie.defaults, options );
+		this.removeItem = function ( key, options ) {
+			options = $.extend( options, { "expires" : -1 } );
+			options = $.extend( this.options, options);
 			var value = null;
-			this.setItem(key,value,options);
+			this.setItem( key, value, options );
 		};
-		this.getItem = function (key, options) {
-			options = jQuery.extend(this.options, options);
+		this.getItem = function ( key, options ) {
+			options = $.extend(this.options, options);
 			var decode = options.raw ? function (s) { return s; } : decodeURIComponent;
 			key = cookie_encode(key);
 			//make the key regex safe
@@ -77,13 +78,13 @@ jQuery.cookie.cookieStorage = function (options){
 			result = result ? decode(result[1]) : null;
 			return result;
 		};
-		this.setItem = function (key, value, options) {
-			options = jQuery.extend(this.options, options);
+		this.setItem = function ( key, value, options ) {
+			options = $.extend(this.options, options);
 			if (typeof options.expires === 'number') {
 				var days = options.expires, t = options.expires = new Date();
 				t.setDate(t.getDate() + days);
 			}
-			value = String(value);
+			value = String( value );
 			var cookie = [
 				options.raw ? key : cookie_encode(key), '=',
 				options.raw ? value : cookie_encode(value),
@@ -95,14 +96,14 @@ jQuery.cookie.cookieStorage = function (options){
 			return document.cookie = cookie;
 		};
 		
-		this.getAll = function(options){
-			options = jQuery.extend(this.options, options);
-			var cookie_strings = document.cookie.split(';'), l = cookie_strings.length, cookies = {};
-			if(l > 0 && jQuery.trim(document.cookie) !== ''){
-			  for(var i = 0; i < l; i ++){
-				  var cookie = cookie_strings[i].match(/([^=]+)=(.+)/);
-				  if(typeof cookie !== 'undefined' && cookie !== null){
-					cookies[jQuery.trim(decodeURIComponent(cookie[1]))] = jQuery.trim(decodeURIComponent(cookie[2]));
+		this.getAll = function( options ){
+			options = $.extend( this.options, options );
+			var cookie_strings = document.cookie.split( ';' ), l = cookie_strings.length, cookies = {};
+			if(l > 0 && $.trim(document.cookie) !== ''){
+			  for( var i = 0; i < l; i++ ){
+				  var cookie = cookie_strings[i].match( /([^=]+)=(.+)/ );
+				  if( typeof cookie !== 'undefined' && cookie !== null ){
+					cookies[ $.trim( decodeURIComponent( cookie[1] ) ) ] = $.trim( decodeURIComponent(cookie[2]));
 				  }
 			  }
 			}
@@ -110,5 +111,5 @@ jQuery.cookie.cookieStorage = function (options){
 		}
 };
 
-
+})( jQuery );
 

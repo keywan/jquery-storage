@@ -1,0 +1,39 @@
+{
+    "name": "cookie",
+    "version": "2.0.0",
+    "title": "jQuery.Cookie 2",
+    "author": {
+        "name": "Keywan Ghadami",
+        "url": "https://github.com/keywan"
+    },
+    "licenses": [
+        {
+            "type": "MIT",
+            "url": "MIT-LICENSE.txt"
+        },
+        {
+            "type": "GPLv2",
+            "url": "GPL-LICENSE.txt"
+        }
+    ],
+    "dependencies": {
+        "jquery": "6"
+    },
+    "description": "A feature-rich jQuery plugin for reading, writing and deleting objects (in cookies, localStorage or sessionStorage) compatible to jquery.cookie 1",
+    "keywords": [
+        "cookie",
+        "storage",
+        "localStorage",
+        "sessionStorage"
+    ],
+    "homepage": "https://github.com/keywan/jquery-cookie",
+    "maintainers": [
+        {
+            "name": "Keywan Ghadami",
+            "url": "https://github.com/keywan"
+        }
+    ],
+    "files": [
+        "jquery.cookie.js"
+    ]
+}
