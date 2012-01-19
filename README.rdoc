@@ -1,11 +1,12 @@
-= jquery.cookie2
+= jquery-storage
 
-A feature-rich jQuery plugin for reading, writing and deleting cookies.
+A feature-rich jQuery plugin for reading, writing and deleting objects.
 
 == Goals
 
 === compatibility with jquery.cookie
-It is full backward compatible with jquery.cookie
+It is full backward compatible with jquery.cookie. You can use it as easy replacement, if you have already 
+used jquery.cookie for stroing statefull informations in the browser.
 
 === get all features
 Try to merge nearly all ideas from the comunity.
