@@ -17,7 +17,7 @@
 	const ajaxStorage = 'ajaxStorage';
 	
 	$.storage = function(options){
-		options = $.extend({},$.storage.defaults, options);
+		options = $.extend({"path":"/"},$.storage.defaults, options);
 	
 		if ( canLocalStorage() && options.storageType == webStorage ) {
 			return localStorage;
