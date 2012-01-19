@@ -200,9 +200,11 @@
 	//default is using CookieStorage but it is posible to set storageType to webStore to redirect jquery.cookie to localStorage for libaries that use jquery.cookie
 	$.cookie.defaults = {};
 	$.cookie.getStorage = function(options){
-		//defaults can override the hardcoded defaults while it is still posible to reset defaults with cookie.defaults = {}
-		var defaults = $.extend({},{ "storageType" : $.storage.cookieStorageType }, $.cookie.defaults);
-		options = $.extend(defaults,options);
-		return $.storage(options);
+		options = $.extend({},$.cookie.defaults,options);
+		if ( options.storageType == null ){
+			 return new $.storage.cookieStorage(options);
+		}else{
+			return $.storage(options);
+		}
 	};
 })( jQuery );
