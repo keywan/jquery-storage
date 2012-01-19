@@ -29,12 +29,20 @@ If a problem is solveable one way, remove the other options as noone request the
 == Installation
 
 Include script *after* the jQuery library (unless you are packaging scripts somehow else):
-    <script src="/path/to/jquery.cookie.js"></script>
+	<script src="/path/to/jquery.cookie.js"></script>
+
+Don't use jquery.cookie.js and jquery.storage.js together
 
 If you do not need the old jquery.cookie API you can use the following instead
-    <script src="/path/to/jquery.storage.js"></script>
+	<script src="/path/to/jquery.storage.js"></script>
 
-Don't use both!
+Don't use jquery.cookie.js and jquery.storage.js together
+
+If you need JSON support (for storing objects) load the JSON plugin before
+    <script src="/path/to/jquery.json.js"></script>
+
+
+
 
 
 == Usage Old-stable Function API
