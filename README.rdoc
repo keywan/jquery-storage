@@ -1,6 +1,6 @@
 = jquery-storage
 
-A feature-rich jQuery plugin for reading, writing and deleting objects.
+A feature-rich jQuery plugin for reading, writing and deleting objects (in cookies, localStorage or sessionStorage) compatible to jquery.cookie
 
 == Goals
 
