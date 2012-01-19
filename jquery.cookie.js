@@ -34,6 +34,7 @@
 	$.cookie.defaults = {};
 	$.cookie.getStorage = function(options){
 		options = $.extend($.cookie.defaults, options);
+	
 		if ( options.useLocalStorage && canLocalStorage() ){
 			return localStorage;
 		} else if ( canSessionStorage() && ( options.useLocalStorage || options.useSessionStorage ) ){
@@ -42,71 +43,75 @@
 		} else {
 			return new $.cookie.cookieStorage(options);
 		}	
-		function canLocalStorage(){
-			return localStorage ? 1 : 0;
-		}
-		function canSessionStorage(){
-			return sessionStorage ? 1 : 0;
-		}
-	}
+	};
+	function canLocalStorage(){
+		return localStorage ? 1 : 0;
+	};
+		
+	function canSessionStorage(){
+		return sessionStorage ? 1 : 0;
+	};
+	
 
 	$.cookie.cookieStorage = function ( options ) {
-			function cookie_encode( string ){
-				//full uri decode not only to encode ",; =" but to save unicode charaters
-				var decoded = encodeURIComponent(string);
-				//encode back common and allowed charaters {}:"#[] to save space and make the cookies more human readable
-				var ns = decoded.replace(/(%7B|%7D|%3A|%22|%23|%5B|%5D)/g,function(charater){return decodeURIComponent(charater);});
-				return ns;
-			}
-
 			this.options = $.extend( $.cookie.defaults, options );
-			this.removeItem = function ( key, options ) {
-				options = $.extend( options, { "expires" : -1 } );
-				options = $.extend( this.options, options);
-				var value = null;
-				this.setItem( key, value, options );
-			};
-			this.getItem = function ( key, options ) {
-				options = $.extend(this.options, options);
-				var decode = options.raw ? function (s) { return s; } : decodeURIComponent;
-				key = cookie_encode(key);
-				//make the key regex safe
-				key = key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
-				var regex = new RegExp('(?:^|; )' + key + '=([^;]*)');
-				var result = regex.exec(document.cookie);
-				result = result ? decode(result[1]) : null;
-				return result;
-			};
-			this.setItem = function ( key, value, options ) {
-				options = $.extend(this.options, options);
-				if (typeof options.expires === 'number') {
-					var days = options.expires, t = options.expires = new Date();
-					t.setDate(t.getDate() + days);
-				}
-				value = String( value );
-				var cookie = [
-					options.raw ? key : cookie_encode(key), '=',
-					options.raw ? value : cookie_encode(value),
-					options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
-					options.path ? '; path=' + options.path : '',
-					options.domain ? '; domain=' + options.domain : '',
-					options.secure ? '; secure' : ''
-				].join('');
-				return document.cookie = cookie;
-			};
-			
-			this.getAll = function( options ){
-				options = $.extend( this.options, options );
-				var cookie_strings = document.cookie.split( ';' ), l = cookie_strings.length, cookies = {};
-				if(l > 0 && $.trim(document.cookie) !== ''){
-				  for( var i = 0; i < l; i++ ){
-					  var cookie = cookie_strings[i].match( /([^=]+)=(.+)/ );
-					  if( typeof cookie !== 'undefined' && cookie !== null ){
-						cookies[ $.trim( decodeURIComponent( cookie[1] ) ) ] = $.trim( decodeURIComponent(cookie[2]));
-					  }
-				  }
-				}
-				return cookies;
-			}
+	}
+	var cSP = $.cookie.cookieStorage.prototype;
+	cSP.cookie_encode = function ( string ){
+		//full uri decode not only to encode ",; =" but to save unicode charaters
+		var decoded = encodeURIComponent(string);
+		//encode back common and allowed charaters {}:"#[] to save space and make the cookies more human readable
+		var ns = decoded.replace(/(%7B|%7D|%3A|%22|%23|%5B|%5D)/g,function(charater){return decodeURIComponent(charater);});
+		return ns;
+	}
+	cSP.removeItem = function ( key, options ) {
+		options = $.extend( options, { "expires" : -1 } );
+		options = $.extend( this.options, options);
+		var value = null;
+		this.setItem( key, value, options );
 	};
+	cSP.getItem = function ( key, options ) {
+		options = $.extend(this.options, options);
+		var decode = options.raw ? function (s) { return s; } : decodeURIComponent;
+		if (! options.raw){
+			key = this.cookie_encode(key);
+		}
+		//make the key regex safe
+		key = key.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+		var regex = new RegExp('(?:^|; )' + key + '=([^;]*)');
+		var result = regex.exec(document.cookie);
+		result = result ? decode(result[1]) : null;
+		return result;
+	};
+	cSP.setItem = function ( key, value, options ) {
+		options = $.extend(this.options, options);
+		if (typeof options.expires === 'number') {
+			var days = options.expires, t = options.expires = new Date();
+			t.setDate(t.getDate() + days);
+		}
+		value = String( value );
+		var cookie = [
+			options.raw ? key : this.cookie_encode(key), '=',
+			options.raw ? value : this.cookie_encode(value),
+			options.expires ? '; expires=' + options.expires.toUTCString() : '', // use expires attribute, max-age is not supported by IE
+			options.path ? '; path=' + options.path : '',
+			options.domain ? '; domain=' + options.domain : '',
+			options.secure ? '; secure' : ''
+		].join('');
+		return document.cookie = cookie;
+	};
+		
+	cSP.getAll = function( options ){
+		options = $.extend( this.options, options );
+		var cookie_strings = document.cookie.split( ';' ), l = cookie_strings.length, cookies = {};
+		if(l > 0 && $.trim(document.cookie) !== ''){
+		  for( var i = 0; i < l; i++ ){
+			  var cookie = cookie_strings[i].match( /([^=]+)=(.+)/ );
+			  if( typeof cookie !== 'undefined' && cookie !== null ){
+				cookies[ $.trim( decodeURIComponent( cookie[1] ) ) ] = $.trim( decodeURIComponent(cookie[2]));
+			  }
+		  }
+		}
+		return cookies;
+	}
 })( jQuery );

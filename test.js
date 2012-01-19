@@ -38,6 +38,15 @@ test('decode', 1, function () {
     equals(res, value, 'should decode key and value');
 });
 
+test('raw', 1, function () {
+	var key = 'c!/$%';
+	var value = 'c!/$%';
+	$.cookie.defaults.raw = 1;
+	$.cookie(key,value);
+	var res = $.cookie(key);
+    equals(res, value);
+});
+
 
 module('write', before);
 
