@@ -13,14 +13,16 @@ If code is incompatible make the idea behind posible.
 If a problem is solveable one way, remove the other options as noone request them to be back.
 
 == status
-Storage Support was added
-$.cookie.defaults.useLocalStorage = 1;
-will enable LocalStorage if available but will fallback to sessionStorage or cookieStorage if not.
+  * ready to use
+  * it's a bit bigger then jquery.cookie but it supports a lot more features.
+  * if want libaries to use webstorage but the hardcoded jquery.cookies then: cookie.defaults.storageType = 'webStorage';
+  * The getAll-Method is not compatible with the Storage Interface it is supposed to to be changed.
+  * if you need a stable api you can still rely on the old API
+  * the new API is "new" so there is still a chance that some things will be changed.
 
-The getAll-Method is not compatible with the Storage Interface it is supposed to to be changed.
-
-if you need a stable api you can rely on the old API
-the new API is "new" so there is a minor chance that some things will be changed.
+== future
+  * the file and the project may be seperatet into smaller peaces
+  * a minimized version is comming soon
 
 
 == Installation
