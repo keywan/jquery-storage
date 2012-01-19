@@ -5,8 +5,8 @@ A feature-rich jQuery plugin for reading, writing and deleting objects.
 == Goals
 
 === compatibility with jquery.cookie
-It is full backward compatible with jquery.cookie. You can use it as easy replacement, if you have already 
-used jquery.cookie for stroing statefull informations in the browser.
+The jquery.cookie.js provides a full backward compatible replacement for jquery.cookie.
+
 
 === get all features
 Try to merge nearly all ideas from the comunity.
@@ -29,8 +29,13 @@ If a problem is solveable one way, remove the other options as noone request the
 == Installation
 
 Include script *after* the jQuery library (unless you are packaging scripts somehow else):
-
     <script src="/path/to/jquery.cookie.js"></script>
+
+If you do not need the old jquery.cookie API you can use the following instead
+    <script src="/path/to/jquery.storage.js"></script>
+
+Don't use both!
+
 
 == Usage Old-stable Function API
 
