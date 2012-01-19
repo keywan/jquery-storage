@@ -58,22 +58,16 @@ Delete cookie:
 	Note when clearing cookies, you must pass the exact same options that were used to initially set the cookie.
 
 == Usage Object/Storage API
-
-    var cm = jQuery.cookie.getStorage(options);
+    there are 3 APIs
+    * The CookieStorage API providing a object to get and set cookies
+      var cm = new $.storage.cookieStorage(options);
+    * The Storage API providing a webStorage with fallback to Cookies, that can only store plain strings
+      var cm = $.storage(options);
+    * The Object Storage API providing a Highlevel API for saving objects by using JSON
+      var cm = $.objectStorage.getStorage(options) or new $.objectStorage(storage)
+    
     cm.setItem(key,value);
     cm.getItem(key);
-    cm.removeItem(key);
-
-== saving objects
-None of the Storages do not support saving objects (other then Strings), but you can use jQuery JSON Plugin
-to build json strings.
-
-    var cm = jQuery.cookie.getStorage(options);
-    var value = $.toJSON(object);
-    cm.setItem(key,value);
-
-    var value = cm.getItem(key);
-    var object = $.evalJSON(value);
     cm.removeItem(key);
 
 == Options
