@@ -14,8 +14,8 @@
 		if ( arguments.length == 0 ) {
 			var cm = $.cookie.getStorage(options);
 			return cm.getAll(options);
-		} else if (arguments.length > 1 && Object.prototype.toString.call(value) !== "[object Object]") {
-			// key and at least value given, set cookie...
+		} else if (arguments.length > 1 && (value == null || Object.prototype.toString.call(value) !== "[object Object]" )) {
+			// key and at least value given, set or delete cookie ...
 			if (value == null) {
 				var cm = $.cookie.getStorage(options);
 				return cm.removeItem(key);
