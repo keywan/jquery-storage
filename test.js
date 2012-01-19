@@ -17,6 +17,11 @@ test('simple value', 1, function () {
     equals($.cookie('c'), 'v', 'should return value');
 });
 
+test('empty value', 1, function () {
+    $.cookie('c', '');
+    equals($.cookie('c'), '', 'should return value');
+});
+
 test('not existing', 1, function () {
     equals($.cookie('whatever'), null, 'should return null');
 });
@@ -26,6 +31,34 @@ test('raw: true', 1, function () {
     document.cookie = 'c=%20v';
     equals($.cookie('c', { raw: true }), '%20v', 'should not decode');
 });
+
+
+test('2 values', 2, function () {
+	$.cookie('1','v1');
+	equals($.cookie('1'),'v1');
+
+	$.cookie('2','v2');
+	equals($.cookie('2'),'v2');
+});
+
+test('mixed', 6, function () {
+
+	$.cookie('1','');
+	$.cookie('2','v2');
+	$.cookie('3','');
+	$.cookie('4','');
+	$.cookie('5','v5');
+	$.cookie('6',null);
+	//alert(document.cookie);
+	equals($.cookie('1'),'');
+	equals($.cookie('2'),'v2');
+	equals($.cookie('3'),'');
+	equals($.cookie('4'),'');
+	equals($.cookie('5'),'v5');
+	equals($.cookie('6'),null);
+	
+});
+
 
 module('decode', before);
 
