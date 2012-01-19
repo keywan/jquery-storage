@@ -112,7 +112,7 @@ test('all cookies', 3, function(){
 
 module('localStorage', before);
 test('localStorage',2,function(){
-	$.cookie.defaults.useLocalStorage = 1;
+	$.cookie.defaults.storageType = 'webStorage';
 	$.cookie('test', 'ok');
 	equals($.cookie('test'), 'ok', 'should return ok');
 	equals(document.cookie, '', 'should be empty, delete cookies and re-run');
