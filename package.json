@@ -1,7 +1,7 @@
 {
-    "name": "cookie",
-    "version": "2.0.0",
-    "title": "jQuery.Cookie 2",
+    "name": "storage",
+    "version": "2.1.0",
+    "title": "jQuery.Storage 2",
     "author": {
         "name": "Keywan Ghadami",
         "url": "https://github.com/keywan"
@@ -19,14 +19,14 @@
     "dependencies": {
         "jquery": "6"
     },
-    "description": "A feature-rich jQuery plugin for reading, writing and deleting objects (in cookies, localStorage or sessionStorage) compatible to jquery.cookie 1",
+    "description": "A feature-rich jQuery plugin for reading, writing and deleting objects (in cookies, localStorage or sessionStorage) compatible to jquery.cookie",
     "keywords": [
         "cookie",
         "storage",
         "localStorage",
         "sessionStorage"
     ],
-    "homepage": "https://github.com/keywan/jquery-cookie",
+    "homepage": "https://github.com/keywan/jquery-storage",
     "maintainers": [
         {
             "name": "Keywan Ghadami",
