@@ -17,7 +17,7 @@
 	var ajaxStorage = 'ajaxStorage';
 	
 	$.storage = function(options){
-		options = $.extend({},$.storage.defaults, options);
+		options = $.extend({"storageType" : webStorage},$.storage.defaults, options);
 	
 		if ( canLocalStorage() && options.storageType == webStorage ) {
 			return localStorage;
@@ -153,7 +153,7 @@
 	
 	var oSP = $.objectStorage.prototype;
 	oSP.getItem = function(key){
-		var item = this.storage.getItem();
+		var item = this.storage.getItem(key);
 		return $.evalJSON(item);
 	};
 	oSP.removeItem = function(key){

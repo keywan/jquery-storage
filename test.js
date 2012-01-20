@@ -144,9 +144,33 @@ test('all cookies', 3, function(){
 });
 
 module('localStorage', before);
-test('localStorage',2,function(){
+test('localStorage under cookie interface',2,function(){
 	$.cookie.defaults.storageType = 'webStorage';
 	$.cookie('test', 'ok');
 	equals($.cookie('test'), 'ok', 'should return ok');
 	equals(document.cookie, '', 'should be empty, delete cookies and re-run');
 });
+
+test('storage API',1,function(){
+	var s = $.storage();
+	s.setItem('test', 'ok');
+	equals(s.getItem('test'), 'ok', 'should return ok');
+});
+
+module('objectStorage', before);
+test('object test',1,function(){
+	var s = $.objectStorage.getStorage();
+	var value = { "x" : [{"a":"1","b":"2"},[],null]};
+	var res;
+	var e = '';
+	try{
+		s.setItem('test', value);
+		res = s.getItem('test');
+	}catch(ex){
+		e = ex;
+	}
+	deepEqual(res, value, e);
+});
+
+
+
