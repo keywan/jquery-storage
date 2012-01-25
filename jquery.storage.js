@@ -38,11 +38,11 @@
 	$.storage.ajaxStorageType = ajaxStorage;
 
 	function canLocalStorage(){
-		return localStorage ? 1 : 0;
+		return typeof(window.localStorage) != 'undefined' ? 1 : 0;
 	};
 		
 	function canSessionStorage(){
-		return sessionStorage ? 1 : 0;
+		return typeof(window.sessionStorage) != 'undefined' ? 1 : 0;
 	};
 	
 })( jQuery );
