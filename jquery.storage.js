@@ -21,10 +21,10 @@
 	
 		if ( canLocalStorage() && options.storageType == webStorage ) {
 			return localStorage;
-		} else if ( canSessionStorage() && options.storageType == webStorage) {
+		} else if ( canSessionStorage() && (options.storageType == webStorage || options.storageType == "sessionStorage")) {
 			//fallback if no localStorage avail use the sessionStorage
 			return sessionStorage;
-		} else if ( options.storageType == webStorage || options.storageType == cookieStorage) {
+		} else if ( options.storageType == webStorage || options.storageType == "sessionStorage" || options.storageType == cookieStorage) {
 			return new $.storage.cookieStorage(options);
 		} else if ( options.storageType == ajaxStorage) {
 			//TODO Ajax Storage
@@ -32,7 +32,7 @@
 			//custom types?
 		}
 	};
-	$.storage.defaults = {};
+	$.storage.defaults = {"storageType" : webStorage};
 	$.storage.webStorageType = webStorage;
 	$.storage.cookieStorageType = cookieStorage;
 	$.storage.ajaxStorageType = ajaxStorage;
